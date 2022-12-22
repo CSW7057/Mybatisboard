@@ -1,5 +1,6 @@
 package com.board.mybatisboard.domain;
 
+import com.board.mybatisboard.dto.BoardRequestDto;
 import com.board.mybatisboard.utill.Timestamped;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,13 +15,13 @@ public class Board extends Timestamped {
     private int id;
 
     @Column (name = "BOARD_AUTHOR" , length = 10 , nullable = false)
-    public String author;
+    private String author;
 
     @Column(name = "BOARD_TITLE" , length = 30 , nullable = false)
-    public String title;
+    private String title;
 
     @Column(name = "BOARD_CONTENT" , columnDefinition = "TEXT" , nullable = false)
-    public String content;
+    private String content;
 
     @Builder
     public Board(int id , String author , String title , String content ) {
@@ -30,5 +31,10 @@ public class Board extends Timestamped {
         this.content = content;
     }
 
+    public void Update(BoardRequestDto boardRequestDto) {
+        this.author = boardRequestDto.getAuthor();
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+    }
 
 }

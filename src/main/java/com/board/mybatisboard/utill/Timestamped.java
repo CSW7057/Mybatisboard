@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 // 해당 클래스가 상속될 속성을 포함하고 있는 SuperClass
 @EntityListeners(AuditingEntityListener.class) // Entity 변경 시 자동업데이트
 @Getter
+
 public abstract class Timestamped {
 
     @CreatedDate
