@@ -3,9 +3,9 @@ package com.board.mybatisboard.dto;
 import com.board.mybatisboard.domain.Board;
 import lombok.*;
 
-
-@NoArgsConstructor
+@Setter
 @Getter
+@NoArgsConstructor
 public class BoardRequestDto {
 
     private Integer id;
@@ -13,23 +13,12 @@ public class BoardRequestDto {
     private String title;
     private String content;
 
-    public Board Entity() {
-        Board boardBuild = Board.builder()
-                .id(id)
+    public Board toEntity() {
+        return Board.builder()
                 .author(author)
                 .title(title)
                 .content(content)
                 .build();
-        return boardBuild;
-    }
-
-    @Builder
-    public BoardRequestDto (Integer id , String author , String title , String content) {
-        this.id = id;
-        this.author = author;
-        this.title = title;
-        this.content = content;
-
     }
 
 }

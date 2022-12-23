@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<Board , Integer> {
 
     List<Board> findAllByOrderByUpdatedAtDesc();
-    Optional<Board> findById(Integer integer);
+
 
 }

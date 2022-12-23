@@ -4,53 +4,40 @@ import com.board.mybatisboard.domain.Board;
 import com.board.mybatisboard.dto.BoardRequestDto;
 import com.board.mybatisboard.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class BoardService {
 
-
     private final BoardRepository boardRepository;
 
+
+    // 게시글 전체 조회
     @Transactional
-    public List<BoardRequestDto> BoardList() {
-        List<Board> boardList = boardRepository.findAllByOrderByUpdatedAtDesc();
-        List<BoardRequestDto> boardRequestDtoList = new ArrayList<>();
-        for ( Board board : boardList) {
-            BoardRequestDto boardDto = BoardRequestDto.builder()
-                    .id(board.getId())
-                    .author(board.getAuthor())
-                    .title(board.getTitle())
-                    .content(board.getContent())
-                    .build();
-            boardRequestDtoList.add(boardDto);
-        }
-        return boardRequestDtoList;
+    public List<Board> BoardList() {
+       return boardRepository.findAllByOrderByUpdatedAtDesc();
+
     }
 
+    // 게시글 상세 조회
     @Transactional
-    public BoardRequestDto BoardDetail(Integer id) {
-        Board board = boardRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("존재하지 않은 글입니다."));
-        BoardRequestDto boardRequestDto = BoardRequestDto.builder()
-                .id(board.getId())
-                .author(board.getAuthor())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .build();
-        return boardRequestDto;
+    public Optional<Board> BoardDetail(Integer id) {
+        return boardRepository.findById(id);
     }
 
+    // 게시글 생성
     @Transactional
-    public Integer BoardCreate(BoardRequestDto boardRequestDto) {
-        return boardRepository.save(boardRequestDto.Entity()).getId();
+    public Integer BoardCreate(BoardRequestDto boardCreateDto) {
+        return boardRepository.save(boardCreateDto.toEntity()).getId();
     }
 
+    //
     @Transactional
     public Integer BoardUpdate(Integer id , BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(
